@@ -1,5 +1,6 @@
 package net.javaguides.springboot.controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import net.javaguides.springboot.dto.UserDTO;
 import net.javaguides.springboot.entity.User;
@@ -22,7 +23,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO user){
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO user){
         UserDTO savedUser = userService.createUser(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
@@ -39,7 +40,7 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
     @PutMapping("{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable("id") Long userID, @RequestBody UserDTO user){
+    public ResponseEntity<UserDTO> updateUser(@PathVariable("id") Long userID, @RequestBody @Valid UserDTO user){
         user.setId(userID);
         UserDTO updatedUser = userService.updateUser(user);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
